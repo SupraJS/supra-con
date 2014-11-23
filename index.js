@@ -1,12 +1,12 @@
-/*       .#.                                                       
-        @@@@@                                                      
-        @@@@@                                                      
-          @                                                        
-    .....@@@                                                       
-   .@@@@@@@                                                        
-   @@@@@@@                                                         
-    @@@@@@@:@@@..@@@@@@@  @@@   @@@ @@@@@@@@   @@@@@@@      @@@@   
-   .@@@@@@@@    @@@@@@@@  @@@   @@@ @@@@@@@@@  @@@@@@@@@  @@@@@@@@ 
+/*       .#.
+        @@@@@
+        @@@@@
+          @
+    .....@@@
+   .@@@@@@@
+   @@@@@@@
+    @@@@@@@:@@@..@@@@@@@  @@@   @@@ @@@@@@@@   @@@@@@@      @@@@
+   .@@@@@@@@    @@@@@@@@  @@@   @@@ @@@@@@@@@  @@@@@@@@@  @@@@@@@@
    '@@@@@@@@@@@@@@@       @@@   @@@ @@@    @@@ @@@   @@@ @@@    @@@
 :@@@@@@@@@:     @@@@@@@@  @@@   @@@ @@@@@@@@@  @@@@@@@@@ @@@    @@@
   `@@@@:             @@@  @@@   @@@ @@@#@@@    @@@@@@@@  @@@@@@@@@@
@@ -18,14 +18,14 @@
   Developer
   Friendly
   Framework.
-	
-	Con Class File
+
+  Con Class File
 */
 
 
 module.exports = Supra.Class.extend({
-	init : function(x){
-		this.mysql = require('mysql2');
+  init : function(x){
+    this.mysql = require('mysql2');
     this.mongo = require('mongojs');
     this.redis = require("redis");
 
@@ -36,7 +36,8 @@ module.exports = Supra.Class.extend({
       var dbConfig = Supra.database[database];
 
       switch(dbConfig.type.toLowerCase()){
-        case 'mysql' : 
+        case 'mysql' :
+
           try{
             this.connection[database] = this.mysql.createConnection(dbConfig);
           }catch(err){
@@ -57,7 +58,7 @@ module.exports = Supra.Class.extend({
               host = usr+dbConfig['host']+':'+dbConfig['port'];
             }
           }
-          
+
           try{
             this.connection[database] = this.mongo(host);
           }catch(err){
@@ -67,17 +68,22 @@ module.exports = Supra.Class.extend({
             this.connection[database] = this.redis.createClient();
 
         break;
-          
-      }   
+
+      }
     }
-    
-	},
-	connect : function(db){
-		return this.connection[db];
-	},
-	destroy : function(db){
-		this.connection[db].close();
-	}
+
+  },
+  connect : function(db){
+    try{
+      return this.connection[db];
+    }catch(err){
+      throw err;
+    }
+
+  },
+  destroy : function(db){
+    this.connection[db].close();
+  }
 })
 
 
